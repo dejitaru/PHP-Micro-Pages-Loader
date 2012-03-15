@@ -5,18 +5,36 @@ class load{
 	{
 		
 	}
-	public static function view($view='',$vars=NULL)
+	public static function view($view='',$vars=NULL,$return=FALSE)
 	{
-		if(is_array($vars))
+		if(file_exists('./'.APP_DIR.'/views/'.$view))
 		{
-			foreach($vars as $key=>$value)
+			if(is_array($vars))
 			{
-				$$key = $value;
-			}			
+				foreach($vars as $key=>$value)
+				{
+					$$key = $value;
+				}			
+			}		
+			if($return)
+			{
+				ob_start();
+				include('./'.APP_DIR.'/views/'.$view);
+				$return_file = ob_get_contents();
+				ob_end_clean();
+				return $return_file;
+			}
+			else
+			{
+				include('./'.APP_DIR.'/views/'.$view);
+			}				
+		}
+		else
+		{
+			echo 'View: '.$view.' not found';
+			exit;
 		}
 
-		
-		include('./'.APP_DIR.'/views/'.$view);
 	}
 }
 ?>

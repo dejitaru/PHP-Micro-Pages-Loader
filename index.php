@@ -1,11 +1,24 @@
 <?php
-require_once('./core/config/config.php')
+require_once('./app/config/config.php');
+require_once('./'.CORE_DIR.'/libraries/load.php');
+require_once('./'.CORE_DIR.'/libraries/controller.php');
+/*******************/
+
+/*******************/
 
 $requested_url = $_SERVER['REQUEST_URI'];
 
-include_once('/'.CORE_DIR.'/libraries/load.php');
-include_once('/'.CORE_DIR.'/libraries/controller.php');
-$superob = new controller();
+if(file_exists('./'.APP_DIR.'/controllers/app_controller.php'))
+{
+	include_once('./'.APP_DIR.'/controllers/app_controller.php');
+	$superob = new app_controller();
+	
+}
+else
+{
+	$superob = new controller();
+}
+
 
 if($requested_url =='/')
 {
@@ -13,11 +26,17 @@ if($requested_url =='/')
 	$method 	= DEFAULT_METHOD;
 	include('./'.APP_DIR.'/controllers/'.$controller.'.php');
 	$superob->$controller = new $controller;
-	$superob->$controller->$method();
+	if(USE_DB)
+	{
+		require_once('./'.CORE_DIR.'/NotORM/NotORM.php');
+		$pdo = new PDO('mysql:host=' . DBHOST . ';dbname='.DBNAME , DBUSER , DBPASSWORD);		
+		$superob->$controller->db = new NotORM($pdo);	
+	}	
+	
+	$superob->$controller->$method();	
 }
 else
 {
-
 	$new_requested_url = rtrim($requested_url, '/');
 	$segments= explode('/',$new_requested_url);
 	$controller = $segments[1];
@@ -34,7 +53,15 @@ else
 		exit;
 	}
 
-	$superob->$controller = new $controller;	
+	$superob->$controller = new $controller;
+	
+	if(USE_DB)
+	{
+		require_once('./'.CORE_DIR.'/NotORM/NotORM.php');
+		$pdo = new PDO('mysql:host=' . DBHOST . ';dbname='.DBNAME , DBUSER , DBPASSWORD);		
+		$superob->$controller->db = new NotORM($pdo);	
+	}		
+		
 	
 	if(method_exists($superob->$controller,$method))
 		{
@@ -52,7 +79,9 @@ else
 	{
 
 		$superob->load->view('errors/404.php');
-	}			
+	}	
+		
+		
 }
 
 ?>

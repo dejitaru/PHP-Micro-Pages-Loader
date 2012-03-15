@@ -1,1 +1,10 @@
 To create tiny websites having pretty urls
+
+Version 1.1 (15.Mar.2012)
+-Now you can use NotORM library by changing the app/config/config.php USE_DB to TRUE
+-Support of loading views into a variable
+-added a app/config/config.php file
+
+Version 1.0 (09.Mar.2012)
+-loading controllers and methods
+-passing vars into views

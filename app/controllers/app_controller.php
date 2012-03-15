@@ -1,21 +1,14 @@
 <?php
 if (!defined('BASEPATH')) exit('Direct access not allowed');
-class controller
+
+class app_controller extends Controller
 {
-	public $assets;
 	public $data;
-	public $db;
 	
 	public function __construct()
 	{
-		$this->load = new load();
-		
+		parent::__construct();	
+		$this->data['name'] = 'Carlos';
 	}
-
-	public function index()
-	{
-		
-	}
-	
 }
 ?>
