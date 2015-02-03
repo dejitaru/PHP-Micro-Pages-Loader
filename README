@@ -1,5 +1,12 @@
 To create tiny websites having pretty urls
 
+Version 2.0 (2.feb.2015)
+-Examples were deleted
+-Added the use of composer
+-Now it can load static pages that stary in pages folder which is also configurable
+-Added errors folder to manage all errors in loading method,classes ans views
+-Config constants were fixed
+
 Version 1.1 (15.Mar.2012)
 -Now you can use NotORM library by changing the app/config/config.php USE_DB to TRUE
 -Support of loading views into a variable
