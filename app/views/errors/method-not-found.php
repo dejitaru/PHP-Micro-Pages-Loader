@@ -1,0 +1,1 @@
+Method <b><?php echo $method?></b> not found

@@ -1,0 +1,1 @@
+Im a static page
