@@ -30,12 +30,12 @@ if($requested_url =='/')
 	if(USE_DB)
 	{
 		require_once('./'.CORE_DIR.'/NotORM/NotORM.php');
-		$pdo = new PDO('mysql:host=' . DBHOST . ';dbname='.DBNAME , DBUSER , DBPASSWORD);		
-		$superob->db = new NotORM($pdo);	
-	}	
+		$pdo = new PDO('mysql:host=' . DBHOST . ';dbname='.DBNAME , DBUSER , DBPASSWORD);
+		$superob->db = new NotORM($pdo);
+	}
 	if( method_exists( $superob->$controller,$method ) )
 	{
-		$superob->$controller->$method();	
+		$superob->$controller->$method();
 	}
 	else
 	{
@@ -48,7 +48,7 @@ else
 	$segments= explode('/',$new_requested_url);
 	$controller = $segments[1];
 	$method = isset($segments[2])?$segments[2]:DEFAULT_METHOD;
-	
+
 	//check for static pages
 	if (USE_STATIC_PAGES && $controller==STATIC_PAGES_SUFIX)
 	{
@@ -60,47 +60,47 @@ else
 		if(file_exists('./'.APP_DIR.'/controllers/'.$controller.'.php'))
 		{
 			include('./'.APP_DIR.'/controllers/'.$controller.'.php');
-	
+
 		}
 		else
 		{
 			load :: view('errors/404.php');
 			exit;
 		}
-	
+
 		$superob->$controller = new $controller;
-		
+
 		if(USE_DB)
 		{
 			require_once('./'.CORE_DIR.'/NotORM/NotORM.php');
-			$pdo = new PDO('mysqli:host=' . DBHOST . ';dbname='.DBNAME , DBUSER , DBPASSWORD);		
-			$superob->$controller->db = new NotORM($pdo);	
-		}		
-			
-		
+			$pdo = new PDO('mysqli:host=' . DBHOST . ';dbname='.DBNAME , DBUSER , DBPASSWORD);
+			$superob->$controller->db = new NotORM($pdo);
+		}
+
+
 		if(method_exists($superob->$controller,$method))
 			{
 				if(count($segments)>1)
 				{
 					foreach($segments as $key=>$value)
 					{
-						$_{$value} = $value;	
-					}				
+						$_[$value] = $value;
+					}
 				}
-				$superob->$controller->$method();	
+				$superob->$controller->$method();
 			}
 		else
 		{
 			$debug['method'] = $method;
 			$superob->load->view('errors/method-not-found.php', $debug);
-		}	
-		
+		}
+
 	}
-	
-		
-		
-			
-		
+
+
+
+
+
 }
 
 ?>
